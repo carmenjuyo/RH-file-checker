@@ -10,7 +10,7 @@ st.title("RH XML Viewer and CSV Exporter")
 uploaded_files = st.file_uploader("Upload XML files with <RH> records", type="xml", accept_multiple_files=True)
 
 # Multi-select options for Reservation Status
-status_options = ["CHECKED OUT", "RESERVED", "CANCELLED", "NO SHOW"]
+status_options = ["CHECKED OUT", "RESERVED", "CANCELLED", "NO SHOW", "CHECKED IN"]
 
 # Filter UI
 col1, col2 = st.columns(2)
