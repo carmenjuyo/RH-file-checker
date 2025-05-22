@@ -9,13 +9,13 @@ st.title("RH XML Viewer and CSV Exporter")
 
 uploaded_files = st.file_uploader("Upload XML files with <RH> records", type="xml", accept_multiple_files=True)
 
-# Dropdown options for Reservation Status
-status_options = ["", "CHECKED OUT", "RESERVED", "CANCELLED", "NO SHOW", "CHECKED IN"]
+# Multi-select options for Reservation Status
+status_options = ["CHECKED OUT", "RESERVED", "CANCELLED", "NO SHOW"]
 
 # Filter UI
 col1, col2 = st.columns(2)
 with col1:
-    status_filter = st.selectbox("Filter by RS (Status)", options=status_options)
+    selected_statuses = st.multiselect("Filter by RS (Status)", options=status_options)
     rid_filter = st.text_input("Filter by RID (Reservation ID, optional):").strip()
 with col2:
     begin_date = st.date_input("BD (Check-in) on or after (optional)", value=None)
@@ -54,7 +54,7 @@ if uploaded_files:
                 st.warning(f"Skipping <RH> entry due to date format error in {uploaded_file.name}: {e}")
                 continue
 
-            match_status = not status_filter or (rs and rs.upper() == status_filter)
+            match_status = not selected_statuses or (rs and rs.upper() in [s.upper() for s in selected_statuses])
             match_rid = not rid_filter or (rid and rid == rid_filter)
             match_bd = not begin_date or (bd_date and bd_date >= begin_date)
             match_ed = not end_date or (ed_date and ed_date <= end_date)
